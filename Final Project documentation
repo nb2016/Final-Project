@@ -1,0 +1,14 @@
+I obtained my data by using the command wget. I copied and pasted the download link instead of following ENA formatting because the
+download failed.
+I first downloaded data to UNH's ron server.
+  wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR838/007/SRR8380707/SRR8380707_2.fastq.gz
+Due to the size of this file, I subsampled the sequence and first reduced it 5,000,000 reads, then to 130,000 reads.
+I also needed to convert the file from FASTQ format to FASTA format.
+  seqtk sample -s3100 SRR8380707_2.fastq.gz 5000000 > ellesmere.2.fq
+  sed -n '1~4s/^@/>/p;2~4p' ellesmere.2.fq > ellesmere.2.fasta
+  seqtk sample -s3100 ellesmere.2.fasta 130000 > ellesmere_reduced.2.fasta
+After subsampling, I picked the first read in the file. In my case, it was read number 256850167 and the sequence was AAGGGGTGTTGA
+ATCCAGTTGGCAATACCAAAAGACAGCCACAGAGGTAATAGCGTTTATGTGGGCAAGGTTGCGTTTCTTTCATCTATTCACCACACACATCCCATAAGCATTGACCAGAGACCATGCACACTCCTTTCTG
+TGGAGAAA.
+I ran a BLAST search of highly similar sequences using blastn. All options were default except for organism, which I chose to be
+gray wolf (taxid:9612).
